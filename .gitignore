@@ -1,0 +1,40 @@
+1) Core Components of Flume :
+                            The purpose of Flume is to provide a distributed, reliable, and available system for efficiently collecting, aggregating and moving large amounts of log data from many different sources to a centralized data store.
+Event: A byte payload with optional string headers that represent the unit of data that Flume can transport from it’s point of origination to it’s final destination.
+Flow: Movement of events from the point of origin to their final destination is considered a data flow, or simply flow.
+      This is not a rigorous definition and is used only at a high level for description purposes. 
+Client: An interface implementation that operates at the point of origin of events and delivers them to a Flume agent.
+        Clients typically operate in the process space of the application they are consuming data from.
+        For example, Flume Log4j Appender is a client.
+Agent: An independent process that hosts flume components such as sources, channels and sinks, and thus has the ability to receive, store and forward events to their next-hop destination. 
+Source: An interface implementation that can consume events delivered to it via a specific mechanism.
+        For example, an Avro source is a source implementation that can be used to receive Avro events from clients or other agents in the flow.
+        When a source receives an event, it hands it over to one or more channels.
+Channel: A transient store for events, where events are delivered to the channel via sources operating within the agent.
+         An event put in a channel stays in that channel until a sink removes it for further transport.
+         An example of channel is the JDBC channel that uses a file-system backed embedded database to persist the events until they are removed by a sink.
+         Channels play an important role in ensuring durability of the flows.
+Sink: An interface implementation that can remove events from a channel and transmit them to the next agent in the flow, or to the event’s final destination.
+      Sinks that transmit the event to it’s final destination are also known as terminal sinks.
+      The Flume HDFS sink is an example of a terminal sink.
+      Whereas the Flume Avro sink is an example of a regular sink that can transmit messages to other agents that are running an Avro source.
+      
+2) Yes, Apache Flume provides end to end reliability because of its transactional approach in data flow with the help of Source and Sink, which is responsible for pass reliably from one end to another end in a flow.
+
+3) Consolidation in Flume :
+                          > It collects data from different sources even from different flume agents.
+                          > It collects data from different and flows through channel and link.
+                          > It finally sends data to HDFS or any other Targeted Local system.
+                          
+4) Event in Flume :
+                   > A unit of data with set of string attributes.
+                   > The external source like web server sends event to the source.
+                   > Flume has inbuilt functionality to understand the source format.
+                   > Each log file is consider as an event. 
+                   > Every Event has a header and value sector, which has a header information and appropriate value that is assigned to particular header. 
+
+5) Agent in Flume :
+                   > A Flume agent is a JVM process that holds the Flume core components through which events flow from an external sources like web-servers to destination like HDFS
+                   > Agent is most important component in flume, (i.e) It is heart of the Apache Flume.
+                  
+                   
